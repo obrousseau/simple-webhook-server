@@ -9,8 +9,8 @@ For information This application support the [Getting Started with Node on Herok
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
 ```sh
-$ git clone git@github.com:heroku/node-js-getting-started.git # or clone your own fork
-$ cd node-js-getting-started
+$ git clone https://github.com/thousandeyes/simple-webhook-server.git # or clone your own fork
+$ cd simple-webhook-server
 $ npm install
 $ npm start
 ```
@@ -29,7 +29,7 @@ $ heroku open
 
 For information on ThousandEyes webhooks, visit these articles in the Customer Success Center:
 
-- [Webhooks Introduction](https://support.thousandeyes.com/entries/58631344)
+- [Using Webhooks](https://support.thousandeyes.com/entries/58631344)
 - [November 12, 2014 Release Notes](https://support.thousandeyes.com/entries/58632104)
 
 For more information about using Node.js on Heroku, see these Dev Center articles:
