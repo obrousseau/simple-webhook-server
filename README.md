@@ -1,6 +1,6 @@
 # simple-webhook-server
 
-A barebones Node.js app to run in Heroku, configured to accept webhook posts.  Based off the [node-js-getting-started](https://github.com/heroku/node-js-getting-started) from Heroku.
+A barebones Node.js app to run in Heroku, configured to accept webhook posts.  Based off the [node-js-getting-started](https://github.com/heroku/node-js-getting-started) from Heroku.  This version of the Node.js application takes an inbound webhook from ThousandEyes and translates it (an example which posts to slack is posted), forwarding it to a target webhook and returning that target's response.
 
 For information This application support the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
 
