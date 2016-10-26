@@ -88,13 +88,14 @@ router.post('/test/:token', function(req, res) {
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
-    var restCall = new restClient();
-    var hookBody = translateHookContent_slack(req);
-    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_HOOK, args, function(data,response) {
-        console.log('Sending to destination hook: ' + JSON.stringify(args));
-        res.status(response.statusCode).send(response.statusMessage);
-    });
+    res.status(200).send(req.body);
+//    var restCall = new restClient();
+//    var hookBody = translateHookContent_slack(req);
+//    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
+//    restCall.post(TARGET_HOOK, args, function(data,response) {
+//        console.log('Sending to destination hook: ' + JSON.stringify(args));
+//        res.status(response.statusCode).send(response.statusMessage);
+//    });
 });
 
 app.use('/webhook-server', router);
