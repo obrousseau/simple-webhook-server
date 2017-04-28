@@ -14,6 +14,16 @@ app.use(bodyParser.json());
 
 var router = express.Router();
 
+function objToStr (obj) {
+    var str = '';
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str += p + '::' + obj[p] + '\n';
+        }
+    }
+    return str;
+}
+
 function translateHookContent_slack(req) {
     var retVal = "";
     switch (req.body.eventType) {
@@ -96,7 +106,7 @@ router.post('/test/:token', function(req, res) {
     restCall.post(TARGET_HOOK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
-        console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + str(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+        console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         res.status(response.statusCode).send(response.statusMessage);
     });
 //  Alternatively, send a response code directly to the webhook server without forwarding to slack
