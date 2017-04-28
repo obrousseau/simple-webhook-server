@@ -5,7 +5,7 @@ var restClient = require('node-rest-client').Client;
 var PORT = (process.env.PORT || 5000);
 var SECURITY_TOKEN = 'OJdqYg87SOcax0baFpf5WInifeErRryPA9qLjiugadBgenwi3UDBj8od21UM5to';
 var HTTP_AUTH_B64_TOKEN = 'dXNlcjEyMzpwYXNzNzg5'; // user123:pass789
-var TARGET_HOOK = 'https://hooks.slack.com/services/<my target>';
+var TARGET_HOOK = 'https://hooks.slack.com/services/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';
 var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
 var app = express();
 
@@ -88,14 +88,14 @@ router.post('/test/:token', function(req, res) {
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
-    res.status(200).send(req.body);
-//    var restCall = new restClient();
-//    var hookBody = translateHookContent_slack(req);
-//    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-//    restCall.post(TARGET_HOOK, args, function(data,response) {
-//        console.log('Sending to destination hook: ' + JSON.stringify(args));
-//        res.status(response.statusCode).send(response.statusMessage);
-//    });
+//    res.status(200).send(req.body);
+    var restCall = new restClient();
+    var hookBody = translateHookContent_slack(req);
+    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
+    restCall.post(TARGET_HOOK, args, function(data,response) {
+        console.log('Sending to destination hook: ' + JSON.stringify(args));
+        res.status(response.statusCode).send(response.statusMessage);
+    });
 });
 
 app.use('/webhook-server', router);
