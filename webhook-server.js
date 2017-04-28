@@ -18,7 +18,7 @@ function objToStr (obj) {
     var str = '';
     for (var p in obj) {
         if (obj.hasOwnProperty(p)) {
-            str += p + '::' + obj[p] + '\n';
+            str += '\"' + p + ': ' + obj[p] + '\"';
         }
     }
     return str;
