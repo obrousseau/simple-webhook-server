@@ -6,7 +6,7 @@ For information This application support the [Getting Started with Node on Herok
 
 ## Running Locally
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed.
 
 ```sh
 $ git clone https://github.com/thousandeyes/simple-webhook-server.git # or clone your own fork
@@ -29,8 +29,8 @@ $ heroku open
 
 For information on ThousandEyes webhooks, visit these articles in the Customer Success Center:
 
-- [Using Webhooks](https://support.thousandeyes.com/entries/58631344)
-- [November 12, 2014 Release Notes](https://support.thousandeyes.com/entries/58632104)
+- [Using Webhooks](https://success.thousandeyes.com/PublicArticlePage?articleIdParam=kA0E0000000CmmVKAS)
+- [November 12, 2014 Release Notes](https://success.thousandeyes.com/PublicArticlePage?articleIdParam=kA0E0000000CmlcKAC)
 
 For more information about using Node.js on Heroku, see these Dev Center articles:
 
@@ -39,6 +39,18 @@ For more information about using Node.js on Heroku, see these Dev Center article
 - [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
 - [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
 - [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+
+## Making Changes
+
+If you need to make changes in the code (for example, to modify the webhook target, which is currently configured as `https://hooks.slack.com/services/<my_target>`, you'll need to make changes and then commit them to your local branch.  To do this, save your changes, and commit them locally, then push them to heroku.  Once the changes are pushed, heroku will rebuild the app.  To monitor logs, run `heroku logs --tail`.
+
+```
+$ git commit -am "your commit message"
+$ git push heroku master
+```
+
+Note: unless ThousandEyes receives a 200 response to a webhook post, it will continue trying to push the webhook every 5 minutes for an hour.
+
 
 ## License
 

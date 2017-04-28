@@ -5,7 +5,7 @@ var restClient = require('node-rest-client').Client;
 var PORT = (process.env.PORT || 5000);
 var SECURITY_TOKEN = 'OJdqYg87SOcax0baFpf5WInifeErRryPA9qLjiugadBgenwi3UDBj8od21UM5to';
 var HTTP_AUTH_B64_TOKEN = 'dXNlcjEyMzpwYXNzNzg5'; // user123:pass789
-var TARGET_HOOK = 'https://hooks.slack.com/services/<my target>';
+var TARGET_HOOK = 'https://hooks.slack.com/services/<my_target>';
 var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
 var app = express();
 
@@ -96,7 +96,7 @@ router.post('/test/:token', function(req, res) {
     restCall.post(TARGET_HOOK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
-        console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + JSON.stringify(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+        console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + str(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         res.status(response.statusCode).send(response.statusMessage);
     });
 //  Alternatively, send a response code directly to the webhook server without forwarding to slack
