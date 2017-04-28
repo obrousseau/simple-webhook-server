@@ -95,6 +95,8 @@ router.post('/test/:token', function(req, res) {
     var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
     restCall.post(TARGET_HOOK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
+        console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
+        console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' args.headers + ' -d \'' + args.data + '\'');
         res.status(response.statusCode).send(response.statusMessage);
     });
 //  Alternatively, send a response code directly to the webhook server without forwarding to slack
