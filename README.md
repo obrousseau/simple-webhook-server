@@ -2,13 +2,15 @@
 
 A barebones Node.js app to run in Heroku, configured to accept webhook posts.  Based off the [node-js-getting-started](https://github.com/heroku/node-js-getting-started) from Heroku.  This version of the Node.js application takes an inbound webhook from ThousandEyes and translates it (an example which posts to slack is posted), forwarding it to a target webhook and returning that target's response.
 
+Note: you'll need to update the code in webhook-server.js to target your own slack webhook for this example.
+
 For information This application support the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
 
 ## Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed.
 
-```sh
+```
 $ git clone https://github.com/thousandeyes/simple-webhook-server.git # or clone your own fork
 $ cd simple-webhook-server
 $ npm install
@@ -51,6 +53,16 @@ $ git push heroku master
 
 Note: unless ThousandEyes receives a 200 response to a webhook post, it will continue trying to push the webhook every 5 minutes for an hour.
 
+
+## Shutting down the sample server
+
+To shut down and remove your sample server on heroku, run the following command:
+
+```
+$ heroku destroy
+ ▸    WARNING: This will delete ⬢ (your-instance-name) including all add-ons.
+ ▸    To proceed, type (your-instance-name) or re-run this command with --confirm 
+```
 
 ## License
 

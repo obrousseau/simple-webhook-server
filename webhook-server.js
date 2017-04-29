@@ -106,7 +106,6 @@ router.post('/test/:token', function(req, res) {
     restCall.post(TARGET_HOOK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
-            console.log('Non-200 response (' + response.statusCode + ') + received from target hook:')
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
             console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         }
