@@ -9,7 +9,7 @@ var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b"
 var TRELLO_OAUTH_OLI_TOKEN = "a11db333a3c9766129ff289562ff30725ff07ef5da83abdf309681a5a3e61e7a"
 var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341"
 var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf"
-var TARGET_URL = "https://api.trello.com/1cards?idList=" + TRELLO_BOARD_ID;
+var TARGET_URL = "https://api.trello.com/1cards?idList=" + TRELLO_LIST_ID;
 //var TARGET_URL = 'https://hooks.slack.com/services/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';
 var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
 var app = express();
