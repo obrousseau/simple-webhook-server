@@ -105,7 +105,7 @@ function translateHookContent_toTrello(req, token) {
     //     default:
     //         retVal = "Received unregistered event type " + req.body.eventType + " from ThousandEyes webhook.  Body data: \n" + JSON.stringify(req.body);
     // }
-    return ({ username: "ThousandEyes Alerts", icon_url: te_img, text: retVal});
+    return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
 }
 
 app.get('/', function(request, response) {
@@ -114,12 +114,8 @@ app.get('/', function(request, response) {
 })
 
 router.post('/jira/' + JIRA_TOKEN, function(req, res) {
-    if (req.params.token !== SECURITY_TOKEN) {
+    if (req.params.token !== JIRA_TOKEN) {
         res.status(401).send({ error: 'Unauthorized' });
-        return;
-    }
-    if (req.query.httpAuth && req.headers['authorization'] !== 'Basic ' + HTTP_AUTH_B64_TOKEN) {
-        res.status(401).send({ error: 'Unauthorized for http basic' });
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
@@ -142,12 +138,8 @@ router.post('/jira/' + JIRA_TOKEN, function(req, res) {
 });
 
 router.post('/helpscout/' + HELPSCOUT_TOKEN, function(req, res) {
-    if (req.params.token !== SECURITY_TOKEN) {
+    if (req.params.token !== HELPSCOUT_TOKEN) {
         res.status(401).send({ error: 'Unauthorized' });
-        return;
-    }
-    if (req.query.httpAuth && req.headers['authorization'] !== 'Basic ' + HTTP_AUTH_B64_TOKEN) {
-        res.status(401).send({ error: 'Unauthorized for http basic' });
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
