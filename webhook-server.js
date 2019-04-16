@@ -34,13 +34,16 @@ function objToStr (obj) {
 function translateHookContent_toTrello(req) {
     var retVal = "Webhook triggered and ";
 
-    // JIRA
-    if (req.body.issue.self.includes("atlassian")) {
-        retVal = retVal + "sent by JIRA";
+    if(req.body.issue) {
+        // JIRA
+        if (req.body.issue.self.includes("atlassian")) {
+            retVal = retVal + "sent by JIRA";
+        }
     }
     // Helpscout
-    else if (req.body.mailbox.id == "38887") {
-        retVal = retVal + "sent by Helpscout";
+    else if (req.body.mailbox) {
+        if (req.body.mailbox.id == "38887") {
+            retVal = retVal + "sent by Helpscout";
     }
     
 
