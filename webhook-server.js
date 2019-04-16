@@ -129,11 +129,11 @@ router.post('/jira/:token', function(req, res) {
     var restCall = new restClient();
     var hookBody = translateHookContent_toTrello(req, req.params.token);
     var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_FOR_TRELLO, args, function(data,response) {
+    restCall.post(TARGET_HOOK_SLACK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
-            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_FOR_TRELLO + ']');
-            console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
+            //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         }
         res.status(response.statusCode).send(response.statusMessage);
     });
@@ -153,11 +153,11 @@ router.post('/helpscout/:token', function(req, res) {
     var restCall = new restClient();
     var hookBody = translateHookContent_toTrello(req, req.params.token);
     var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_FOR_TRELLO, args, function(data,response) {
+    restCall.post(TARGET_HOOK_SLACK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
-            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
-            console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
+            //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         }
         res.status(response.statusCode).send(response.statusMessage);
     });
