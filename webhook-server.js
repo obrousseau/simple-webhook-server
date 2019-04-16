@@ -48,7 +48,7 @@ function translateHookContent_toTrello(req, token) {
     };
 
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
-    return ({ qs: retVal});
+    return retVal;
 }
 
 app.get('/', function(request, response) {
@@ -66,7 +66,7 @@ router.post('/jira/:token', function(req, res) {
 //  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
     var hookBody = translateHookContent_toTrello(req, req.params.token);
-    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
+    var args = {qs: hookBody,headers:{"Content-Type": "application/json"}};
     restCall.post(TARGET_URL, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
