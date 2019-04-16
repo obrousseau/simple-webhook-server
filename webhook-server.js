@@ -37,14 +37,14 @@ function translateHookContent_toTrello(req, token) {
     };
     
     if(token === JIRA_TOKEN) {
-        retVal.push({"name":req.body.issue.fields.key + " " + req.body.issue.fields.description}); 
-        retVal.push({"pos":"top"});
+        retVal["name"] = req.body.issue.fields.key + " " + req.body.issue.fields.description; 
+        retVal["pos"] = "top";
     }
 
     else if (token === HELPSCOUT_TOKEN) {
-        retVal.push({"name": req.body.subject});
-        retVal.push({"pos":"top"});
-        retVal.push({"desc": req.body.preview});
+        retVal["name"] = req.body.subject;
+        retVal["pos"] = "top";
+        retVal["desc"] = req.body.preview;
     };
 
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
