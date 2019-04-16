@@ -6,7 +6,7 @@ var PORT = (process.env.PORT || 5000);
 var JIRA_TOKEN = 'I9n7AhJu87Gd0w94DzksBWLGAlgbCDzvUFB8';
 var HELPSCOUT_TOKEN = 'O6VciZqkVo3YGulBNjEBF0S9vIffvB6Osr0Y'; // user123:pass789
 var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b"
-var TRELLO_OAUTH_OLI_TOKEN = "a11db333a3c9766129ff289562ff30725ff07ef5da83abdf309681a5a3e61e7a"
+var TRELLO_OAUTH_OLI_TOKEN = "d1f0ffa71bcd17757a7d852c61705e7587075315e0883d2acb4be0cc784f72a6"
 var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341"
 var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf"
 var TARGET_URL = "https://api.trello.com/1/cards";
@@ -58,7 +58,7 @@ app.get('/', function(request, response) {
 
 router.post('/jira/:token', function(req, res) {
     if (req.params.token !== JIRA_TOKEN) {
-        res.status(401).send({ error: 'Unauthorized' });
+        res.status(401).send({ error: 'Unauthorized (from webhook)' });
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
@@ -82,7 +82,7 @@ router.post('/jira/:token', function(req, res) {
 
 router.post('/helpscout/:token', function(req, res) {
     if (req.params.token !== HELPSCOUT_TOKEN) {
-        res.status(401).send({ error: 'Unauthorized' });
+        res.status(401).send({ error: 'Unauthorized (from webhook)' });
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
