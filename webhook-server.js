@@ -32,7 +32,7 @@ function objToStr (obj) {
 }
 
 function translateHookContent_toTrello(req) {
-    var retVal = req.body;
+    var retVal = "Here's the request body: " + JSON.stringify(req.body);
 
     // JIRA
 
