@@ -64,7 +64,7 @@ router.post('/jira/:token', function(req, res) {
     var qs = translateHookContent_toTrello(req, req.params.token);
     var args = {headers:{"Content-Type": "application/json"}};
     restCall.post(TARGET_URL + qs, args, function(data,response) {
-        console.log('Sending to destination hook: ' + JSON.stringify(args));
+        console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
         if (response.statusCode != 200) {
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
             //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
@@ -88,7 +88,7 @@ router.post('/helpscout/:token', function(req, res) {
     var qs = translateHookContent_toTrello(req, req.params.token);
     var args = {headers:{"Content-Type": "application/json"}};
     restCall.post(TARGET_URL + qs, args, function(data,response) {
-        console.log('Sending to destination hook: ' + JSON.stringify(args));
+        console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
         if (response.statusCode != 200) {
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
             //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
