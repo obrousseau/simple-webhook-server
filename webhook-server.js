@@ -9,7 +9,7 @@ var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b"
 var TRELLO_OAUTH_OLI_TOKEN = "a11db333a3c9766129ff289562ff30725ff07ef5da83abdf309681a5a3e61e7a"
 var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341"
 var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf"
-var TARGET_URL = "https://api.trello.com/1cards?idList=" + TRELLO_LIST_ID;
+var TARGET_URL = "https://api.trello.com/1/cards";
 //var TARGET_URL = 'https://hooks.slack.com/services/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';
 var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
 var app = express();
@@ -35,85 +35,23 @@ function translateHookContent_toTrello(req, token) {
     if(token === JIRA_TOKEN) {
         retVal = 
         {"name": req.body.issue.fields.key + " " + req.body.issue.fields.description,
-        "pos":"top"};
+        "pos":"top",
+        "idList": TRELLO_LIST_ID};
     }
     else if (token === HELPSCOUT_TOKEN) {
         retVal = 
         {"name": req.body.subject,
         "pos":"top",
-        "desc": req.body.preview};
+        "desc": req.body.preview,
+        "idList": TRELLO_LIST_ID};
     }
-    // if(req.body.issue === null) 
-    // // JIRA
-    // if (req.body.issue.self.includes("atlassian")) {
-    //     retVal = retVal + "sent by JIRA";
-    // }
-    // // Helpscout
-    // else if (req.body.mailbox.id == "38887") {
-    //     retVal = retVal + "sent by Helpscout";
-    // }
-    
 
-    // switch (req.body.eventType) {
-    //     case "ALERT_NOTIFICATION_TRIGGER":
-    //         retVal = "Alert notification [<" + req.body.alert.permalink + "|" + req.body.alert.alertId + ">]: " + req.body.alert.testName + " (" + req.body.alert.ruleName + ")\n";
-    //         switch (req.body.alert.type) {
-    //             case "BGP":
-    //                 break;
-    //             case "DNS+ Domain":
-    //                 break;
-    //             case "DNS+ Server":
-    //                 break;
-    //             default:
-    //                 //this has agents
-    //                 retVal += " " + req.body.alert.agents.length + " agents: ";
-    //                 for (var i=0;i<req.body.alert.agents.length;i++) {
-    //                     if (i>0) {
-    //                         retVal += " | ";
-    //                     }
-    //                     retVal += "<" + req.body.alert.agents[i].permalink + "|" + req.body.alert.agents[i].agentName + "> ("
-    //                     if (req.body.alert.agents[i].active == "1") {
-    //                         retVal += "Active";
-    //                     } else {
-    //                         retVal += "Cleared";
-    //                     }
-    //                     retVal += "): " + req.body.alert.agents[i].metricsAtEnd;
-    //                 }
-    //         }
-    //         break;
-    //     case "ALERT_NOTIFICATION_CLEAR":
-    //         retVal = "Alert cleared [<" + req.body.alert.permalink + "|" + req.body.alert.alertId + "|" + ">]: " + req.body.alert.testName + " (" + req.body.alert.ruleName + ")";
-    //         break;
-    //     case "AGENT_ALERT_NOTIFICATION_TRIGGER":
-    //         retVal = "Agent notification [" + req.body.agentAlert.agentNotificationId + "]: " + req.body.agentAlert.agentName + " (" + req.body.agentAlert.ruleName + ") ";
-    //         retVal += req.body.agentAlert.hostname  + " (" + req.body.agentAlert.metricsAtStart + "): "
-    //         if (req.body.agentAlert.active == "1") {
-    //             retVal += "Active";
-    //         } else {
-    //             retVal += "Cleared";
-    //         }
-    //         break;
-    //     case "AGENT_ALERT_NOTIFICATION_CLEAR":
-    //         retVal = "Agent notification cleared [" + req.body.agentAlert.agentNotificationId + "]: " + req.body.agentAlert.agentName + " (" + req.body.agentAlert.ruleName + ") ";
-    //         retVal += req.body.agentAlert.hostname  + " (" + req.body.agentAlert.metricsAtEnd + "): "
-    //         if (req.body.agentAlert.active == "1") {
-    //             retVal += "Active";
-    //         } else {
-    //             retVal += "Cleared";
-    //         }
-    //         break;
-    //     case "WEBHOOK_TEST":
-    //         retVal = "Webhook test received. (" + req.body.eventId + ")";
-    //         break;
-    //     default:
-    //         retVal = "Received unregistered event type " + req.body.eventType + " from ThousandEyes webhook.  Body data: \n" + JSON.stringify(req.body);
-    // }
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
     return ({ qs: retVal});
 }
 
 app.get('/', function(request, response) {
-  response.send('This the ThousandEyes simple Webhook server sample.  Use POST methods instead of GET.')
+  response.send('This the OliB simple Webhook server sample.  Use POST methods instead of GET.')
   console.log('GET request received');
 })
 
