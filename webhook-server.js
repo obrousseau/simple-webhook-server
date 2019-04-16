@@ -30,25 +30,21 @@ function objToStr (obj) {
 }
 
 function translateHookContent_toTrello(req, token) {
-    var retVal = {
-        // "key": TRELLO_API_KEY,
-        // "token": TRELLO_OAUTH_OLI_TOKEN,
-        "idList":TRELLO_LIST_ID
-    };
-    
+    var queryParams = "";
+
     if(token === JIRA_TOKEN) {
-        retVal["name"] = req.body.issue.fields.key + " " + req.body.issue.fields.description; 
-        retVal["pos"] = "top";
+        queryParams.concat("&name=",req.body.issue.fields.key + " " + req.body.issue.fields.description); 
+        queryParams.concat("&pos=top");
     }
 
     else if (token === HELPSCOUT_TOKEN) {
-        retVal["name"] = req.body.subject;
-        retVal["pos"] = "top";
-        retVal["desc"] = req.body.preview;
+        queryParams.concat("&name",req.body.subject);
+        queryParams.concat("&pos=top");
+        queryParams.concat("&desc", req.body.preview);
     };
 
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
-    return retVal;
+    return queryParams;
 }
 
 app.get('/', function(request, response) {
@@ -65,9 +61,9 @@ router.post('/jira/:token', function(req, res) {
 //  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
 //  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
-    var hookBody = translateHookContent_toTrello(req, req.params.token);
-    var args = {qs: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_URL, args, function(data,response) {
+    var qs = translateHookContent_toTrello(req, req.params.token);
+    var args = {headers:{"Content-Type": "application/json"}};
+    restCall.post(TARGET_URL + qs, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
@@ -89,9 +85,9 @@ router.post('/helpscout/:token', function(req, res) {
 //  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
 //  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
-    var hookBody = translateHookContent_toTrello(req, req.params.token);
-    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_URL, args, function(data,response) {
+    var qs = translateHookContent_toTrello(req, req.params.token);
+    var args = {headers:{"Content-Type": "application/json"}};
+    restCall.post(TARGET_URL + qs, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
