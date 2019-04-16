@@ -32,13 +32,18 @@ function objToStr (obj) {
 }
 
 function translateHookContent_toTrello(req, token) {
-    var retVal = "Webhook triggered and ";
+    var retVal = "";
     
     if(token === JIRA_TOKEN) {
-        retVal = retVal + "sent by JIRA";
+        retVal = 
+        {"name": req.body.issue.fields.key + " " + req.body.issue.fields.description,
+        "pos":"top"};
     }
     else if (token === HELPSCOUT_TOKEN) {
-        retVal = retVal + "sent by Helpscout";
+        retVal = 
+        {"name": req.body.subject,
+        "pos":"top",
+        "desc": req.body.preview};
     }
     // if(req.body.issue === null) 
     // // JIRA
