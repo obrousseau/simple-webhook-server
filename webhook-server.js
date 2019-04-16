@@ -32,11 +32,17 @@ function objToStr (obj) {
 }
 
 function translateHookContent_toTrello(req) {
-    var retVal = "Here's the request body: " + JSON.stringify(req.body);
+    var retVal = "Webhook triggered and ";
 
     // JIRA
-
+    if (req.body.issue.self.includes("atlassian")) {
+        retVal = retVal + "sent by JIRA";
+    }
     // Helpscout
+    else if (req.body.mailbox.id == "38887") {
+        retVal = retVal + "sent by Helpscout";
+    }
+    
 
     // switch (req.body.eventType) {
     //     case "ALERT_NOTIFICATION_TRIGGER":
