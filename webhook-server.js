@@ -34,7 +34,7 @@ function objToStr (obj) {
 function translateHookContent_toTrello(req) {
     var retVal = "Webhook triggered and ";
     
-    retVal = retVal + req.get("host");
+    retVal = retVal + req.get("referer") + " " + req.get("origin");
     // if(req.body.issue === null) 
     // // JIRA
     // if (req.body.issue.self.includes("atlassian")) {
