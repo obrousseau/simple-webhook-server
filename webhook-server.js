@@ -110,7 +110,8 @@ function translateHookContent_toTrello(req, token) {
     //     default:
     //         retVal = "Received unregistered event type " + req.body.eventType + " from ThousandEyes webhook.  Body data: \n" + JSON.stringify(req.body);
     // }
-    return ({ username: "Oli Webhooks", icon_url: te_img, qs: retVal});
+    return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
+    //return ({ qs: retVal});
 }
 
 app.get('/', function(request, response) {
