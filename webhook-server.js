@@ -3,8 +3,8 @@ var bodyParser  = require('body-parser');
 var restClient = require('node-rest-client').Client;
 
 var PORT = (process.env.PORT || 5000);
-var SECURITY_TOKEN = 'OJdqYg87SOcax0baFpf5WInifeErRryPA9qLjiugadBgenwi3UDBj8od21UM5to';
-var HTTP_AUTH_B64_TOKEN = 'dXNlcjEyMzpwYXNzNzg5'; // user123:pass789
+var JIRA_TOKEN = 'I9n7AhJu87Gd0w94DzksBWLGAlgbCDzvUFB8';
+var HELPSCOUT_TOKEN = 'O6VciZqkVo3YGulBNjEBF0S9vIffvB6Osr0Y'; // user123:pass789
 var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b"
 var TRELLO_OAUTH_OLI_TOKEN = "a11db333a3c9766129ff289562ff30725ff07ef5da83abdf309681a5a3e61e7a"
 var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341"
@@ -31,10 +31,15 @@ function objToStr (obj) {
     return str;
 }
 
-function translateHookContent_toTrello(req) {
+function translateHookContent_toTrello(req, token) {
     var retVal = "Webhook triggered and ";
     
-    retVal = retVal + req.get("referer") + " " + req.get("origin");
+    if(token === JIRA_TOKEN) {
+        retVal = retVal + "sent by JIRA";
+    }
+    else if (token === HELPSCOUT_TOKEN) {
+        retVal = retVal + "sent by Helpscout";
+    }
     // if(req.body.issue === null) 
     // // JIRA
     // if (req.body.issue.self.includes("atlassian")) {
@@ -108,7 +113,7 @@ app.get('/', function(request, response) {
   console.log('GET request received');
 })
 
-router.post('/test/:token', function(req, res) {
+router.post('/jira/' + JIRA_TOKEN, function(req, res) {
     if (req.params.token !== SECURITY_TOKEN) {
         res.status(401).send({ error: 'Unauthorized' });
         return;
@@ -121,7 +126,35 @@ router.post('/test/:token', function(req, res) {
 //  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
 //  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
-    var hookBody = translateHookContent_toTrello(req);
+    var hookBody = translateHookContent_toTrello(req, token);
+    var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
+    restCall.post(TARGET_HOOK_SLACK, args, function(data,response) {
+        console.log('Sending to destination hook: ' + JSON.stringify(args));
+        if (response.statusCode != 200) {
+            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
+            console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+        }
+        res.status(response.statusCode).send(response.statusMessage);
+    });
+//  Alternatively, send a response code directly to the webhook server without forwarding to slack
+//    res.status(200).send(req.body);
+
+});
+
+router.post('/helpscout/' + HELPSCOUT_TOKEN, function(req, res) {
+    if (req.params.token !== SECURITY_TOKEN) {
+        res.status(401).send({ error: 'Unauthorized' });
+        return;
+    }
+    if (req.query.httpAuth && req.headers['authorization'] !== 'Basic ' + HTTP_AUTH_B64_TOKEN) {
+        res.status(401).send({ error: 'Unauthorized for http basic' });
+        return;
+    }
+    console.log('Received: ' + JSON.stringify(req.body));
+//  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
+//  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
+    var restCall = new restClient();
+    var hookBody = translateHookContent_toTrello(req, token);
     var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
     restCall.post(TARGET_HOOK_SLACK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
