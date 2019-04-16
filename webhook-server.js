@@ -132,8 +132,8 @@ router.post('/jira/:token', function(req, res) {
     restCall.post(TARGET_FOR_TRELLO, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
-            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
-            console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_FOR_TRELLO + ']');
+            console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
         }
         res.status(response.statusCode).send(response.statusMessage);
     });
