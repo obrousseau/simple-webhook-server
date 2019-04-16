@@ -113,7 +113,7 @@ app.get('/', function(request, response) {
   console.log('GET request received');
 })
 
-router.post('/jira/' + JIRA_TOKEN, function(req, res) {
+router.post('/jira/:token', function(req, res) {
     if (req.params.token !== JIRA_TOKEN) {
         res.status(401).send({ error: 'Unauthorized' });
         return;
@@ -137,7 +137,7 @@ router.post('/jira/' + JIRA_TOKEN, function(req, res) {
 
 });
 
-router.post('/helpscout/' + HELPSCOUT_TOKEN, function(req, res) {
+router.post('/helpscout/:token', function(req, res) {
     if (req.params.token !== HELPSCOUT_TOKEN) {
         res.status(401).send({ error: 'Unauthorized' });
         return;
