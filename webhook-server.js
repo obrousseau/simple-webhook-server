@@ -30,28 +30,25 @@ function objToStr (obj) {
 }
 
 function translateHookContent_toTrello(req, token) {
-    var retVal = "";
-    var commonParams = {
+    var retVal = {
         "key": TRELLO_API_KEY,
         "token": TRELLO_OAUTH_OLI_TOKEN,
         "idList":TRELLO_LIST_ID
     };
     
     if(token === JIRA_TOKEN) {
-        var jiraParams = 
-        {"name": req.body.issue.fields.key + " " + req.body.issue.fields.description,
-        "pos":"top"};
+        retVal.push({"name":req.body.issue.fields.key + " " + req.body.issue.fields.description}); 
+        retVal.push({"pos":"top"});
     }
 
     else if (token === HELPSCOUT_TOKEN) {
-        var helpscoutParams = 
-        {"name": req.body.subject,
-        "pos":"top",
-        "desc": req.body.preview};
+        retVal.push({"name": req.body.subject});
+        retVal.push({"pos":"top"});
+        retVal.push({"desc": req.body.preview});
     };
 
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
-    return ({ qs: retVal.concat(commonParams,jiraParams,helpscoutParams)});
+    return ({ qs: retVal});
 }
 
 app.get('/', function(request, response) {
