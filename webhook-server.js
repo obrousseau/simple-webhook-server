@@ -115,7 +115,7 @@ router.post('/test/:token', function(req, res) {
     var restCall = new restClient();
     var hookBody = translateHookContent_toTrello(req);
     var args = {data: hookBody,headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_HOOK, args, function(data,response) {
+    restCall.post(TARGET_HOOK_SLACK, args, function(data,response) {
         console.log('Sending to destination hook: ' + JSON.stringify(args));
         if (response.statusCode != 200) {
             console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server [' + TARGET_HOOK + ']');
