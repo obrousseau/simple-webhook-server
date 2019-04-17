@@ -1,3 +1,4 @@
+/* jshint latedef: true, unused: true */
 var express = require('express');
 var bodyParser  = require('body-parser');
 var restClient = require('node-rest-client').Client;
@@ -40,7 +41,7 @@ function translateHookContent_toTrello(req, token) {
         var contentPreview = req.body.preview;
         var assignee = req.body.threads[0].assignedTo.email;
 
-        if (noteContent.includes("@olivier") || assignee.includes("olivier@dashthis.com")) {
+        if (contentPreview.includes("@olivier") || assignee.includes("olivier@dashthis.com")) {
             queryParams = queryParams.concat("&name=",req.body.subject,"&pos=top","&desc=",contentPreview);
         }
     }
