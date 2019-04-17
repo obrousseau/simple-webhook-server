@@ -61,22 +61,22 @@ router.post('/jira/:token', function(req, res) {
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
-//  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
-//  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
     var qs = translateHookContent_toTrello(req, req.params.token);
-    var args = {headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_URL + qs, args, function(data,response) {
-        console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
-        if (response.statusCode != 200) {
-            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
-            //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
-        }
-        res.status(response.statusCode).send(response.statusMessage);
-    });
-//  Alternatively, send a response code directly to the webhook server without forwarding to slack
-//    res.status(200).send(req.body);
-
+    if(qs !== 0) {
+        var args = {headers:{"Content-Type": "application/json"}};
+        restCall.post(TARGET_URL + qs, args, function(data,response) {
+            console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
+            if (response.statusCode != 200) {
+                console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
+                //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_FOR_TRELLO + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+            }
+            res.status(response.statusCode).send(response.statusMessage);
+        });
+    } else {
+        console.log("Empty query params and irrelevant webhook event.");
+    }
+    
 });
 
 router.post('/helpscout/:token', function(req, res) {
@@ -85,19 +85,21 @@ router.post('/helpscout/:token', function(req, res) {
         return;
     }
     console.log('Received: ' + JSON.stringify(req.body));
-//  Use the following lines to forward the request to slack, and return the response code from the slack api back to the sender.
-//  Note: if you don't send a 200 response code back to the ThousandEyes webhook initiator, it'll keep retrying every 5 minutes for an hour.
     var restCall = new restClient();
     var qs = translateHookContent_toTrello(req, req.params.token);
+    if(qs !== 0) {
     var args = {headers:{"Content-Type": "application/json"}};
-    restCall.post(TARGET_URL + qs, args, function(data,response) {
-        console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
-        if (response.statusCode != 200) {
-            console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
-            //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
-        }
-        res.status(response.statusCode).send(response.statusMessage);
-    });
+        restCall.post(TARGET_URL + qs, args, function(data,response) {
+            console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
+            if (response.statusCode != 200) {
+                console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
+                //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
+            }
+            res.status(response.statusCode).send(response.statusMessage);
+        });
+    } else {
+        console.log("Empty query params and irrelevant webhook event.");
+    }
 //  Alternatively, send a response code directly to the webhook server without forwarding to slack
 //    res.status(200).send(req.body);
 
