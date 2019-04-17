@@ -39,7 +39,7 @@ function translateHookContent_toTrello(req, token) {
 
     else if (token === HELPSCOUT_TOKEN) {
         var contentPreview = req.body.preview;
-        var assignee = req.body.threads[0].assignedTo.email;
+        var assignee = req.body.threads[0].assignedTo.email || "info@dashthis.com";
 
         if (contentPreview.includes("@olivier") || assignee.includes("olivier@dashthis.com")) {
             queryParams = queryParams.concat("&name=",req.body.subject,"&pos=top","&desc=",contentPreview);
