@@ -5,10 +5,10 @@ var restClient = require('node-rest-client').Client;
 var PORT = (process.env.PORT || 5000);
 var JIRA_TOKEN = 'I9n7AhJu87Gd0w94DzksBWLGAlgbCDzvUFB8';
 var HELPSCOUT_TOKEN = 'O6VciZqkVo3YGulBNjEBF0S9vIffvB6Osr0Y'; // user123:pass789
-var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b"
-var TRELLO_OAUTH_OLI_TOKEN = "d1f0ffa71bcd17757a7d852c61705e7587075315e0883d2acb4be0cc784f72a6"
-var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341"
-var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf"
+var TRELLO_API_KEY = "161552c07fb3a105793022c82d833c5b";
+var TRELLO_OAUTH_OLI_TOKEN = "d1f0ffa71bcd17757a7d852c61705e7587075315e0883d2acb4be0cc784f72a6";
+var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341";
+var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf";
 var TARGET_URL = "https://api.trello.com/1/cards?key=" + TRELLO_API_KEY + "&token=" + TRELLO_OAUTH_OLI_TOKEN + "&idList=" + TRELLO_LIST_ID;
 //var TARGET_URL = 'https://hooks.slack.com/services/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';
 var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
@@ -37,17 +37,22 @@ function translateHookContent_toTrello(req, token) {
     }
 
     else if (token === HELPSCOUT_TOKEN) {
-        queryParams = queryParams.concat("&name=",req.body.subject,"&pos=top","&desc=",req.body.preview);
-    };
+        var contentPreview = req.body.preview;
+        var assignee = req.body.threads[0].assignedTo.email;
+
+        if (noteContent.includes("@olivier") || assignee.includes("olivier@dashthis.com")) {
+            queryParams = queryParams.concat("&name=",req.body.subject,"&pos=top","&desc=",contentPreview);
+        }
+    }
 
     //return ({ username: "Oli Webhooks", icon_url: te_img, text: retVal});
     return encodeURI(queryParams);
 }
 
 app.get('/', function(request, response) {
-  response.send('This the OliB simple Webhook server sample.  Use POST methods instead of GET.')
+  response.send('This the OliB simple Webhook server sample.  Use POST methods instead of GET.');
   console.log('GET request received');
-})
+});
 
 router.post('/jira/:token', function(req, res) {
     if (req.params.token !== JIRA_TOKEN) {
