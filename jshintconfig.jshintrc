@@ -1,0 +1,7 @@
+{
+    "curly": true,
+    "latedef": true,
+    "trailingcomma":true,
+    "undef": true,
+    "unused": true
+}
