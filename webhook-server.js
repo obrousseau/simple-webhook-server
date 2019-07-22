@@ -34,7 +34,7 @@ function translateHookContent_toTrello(req, token) {
     var queryParams = "";
 
     if(token === JIRA_TOKEN) {
-        queryParams = queryParams.concat("&name=",req.body.issue.key,"&desc=",req.body.issue.fields.description,"&pos=top"); 
+        queryParams = queryParams.concat("&name=",req.body.issue.key,"&desc=",req.body.issue.fields.description); 
     }
 
     else if (token === HELPSCOUT_TOKEN) {
@@ -42,7 +42,7 @@ function translateHookContent_toTrello(req, token) {
         var assignee = req.body.threads[0].assignedTo.email || "info@dashthis.com";
 
         if (contentPreview.includes("@olivier") || assignee.includes("olivier@dashthis.com")) {
-            queryParams = queryParams.concat("&name=",req.body.subject,"&pos=top","&desc=",contentPreview);
+            queryParams = queryParams.concat("&name=",req.body.subject,"&desc=",contentPreview);
         }
     }
 
