@@ -12,7 +12,6 @@ var TRELLO_BOARD_ID = "5a06ed465a69fb980915f341";
 var TRELLO_LIST_ID = "5c73eca72135995a3400f5bf";
 var TARGET_URL = "https://api.trello.com/1/cards?key=" + TRELLO_API_KEY + "&token=" + TRELLO_OAUTH_OLI_TOKEN + "&idList=" + TRELLO_LIST_ID;
 //var TARGET_URL = 'https://hooks.slack.com/services/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';
-var te_img = 'https://s3.amazonaws.com/uploads.hipchat.com/6634/194641/uncYbgVEMQ1XNtk/TE-Eye-36x36.jpg';
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -75,8 +74,7 @@ router.post('/jira/:token', function(req, res) {
         });
     } else {
         console.log("Empty query params and irrelevant webhook event.");
-    }
-    
+    }  
 });
 
 router.post('/helpscout/:token', function(req, res) {
@@ -88,16 +86,18 @@ router.post('/helpscout/:token', function(req, res) {
     var restCall = new restClient();
     var qs = translateHookContent_toTrello(req, req.params.token);
     console.log(qs);
-    var args = {headers:{"Content-Type": "application/json"}};
+    if(qs !== 0) {
+        var args = {headers:{"Content-Type": "application/json"}};
         restCall.post(TARGET_URL + qs, args, function(data,response) {
             console.log('Sending to destination URL: ' + TARGET_URL + 'with the following parameters: ' + qs);
             if (response.statusCode != 200) {
                 console.log('Received response: ' + response.statusCode + ' (' + response.statusMessage + ') from destination server');
-                //console.log('To test yourself, run this: \n curl -i -v \'' + TARGET_HOOK + '\' -H ' + objToStr(args.headers) + ' -d \'' + JSON.stringify(args.data) + '\'');
             }
             res.status(response.statusCode).send(response.statusMessage);
         });
-        //console.log("Empty query params and irrelevant webhook event.");
+    } else {
+        console.log("Empty query params and irrelevant webhook event.");
+    } 
 });
 
 app.use('/webhook-server', router);
